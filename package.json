@@ -27,5 +27,8 @@
     "jest": "^27.4.5"
   },
   "type": "module",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "caniuse-lite": "^1.0.30001292"
+  }
 }
