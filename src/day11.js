@@ -20,19 +20,24 @@
  La dificultad del reto está en encontrar una fórmula sencilla que nos diga el precio con descuento acumulado para la
  tarjeta fidelidad. 😜
  */
-
-/**
- * Title: Recursion + ternary operator + arrow function.
- * Complexity: Θ(N)
- * Comment:
- * -I spent some time trying to implement the shortest solution. This is the best I could get.
- * -The idea is to create a one-liner tail recursive function and then to call it with the initial params.
- * 1. On every iteration the ticket's counter (times) value will be decreased, while the returning value would be
- * increased (the ticket's cost)
- * 2. The idea of the algorithm is to get to the base case (tickets = 0) and then on every iteration add the current
- * ticket price to the accumulated price. This way we will be iterating twice (Θ(2N) ~= Θ(N))
- */
 export default function shouldBuyFidelity(times) {
-    const calculateDiscount = t => t === 0 ? 0 : Math.pow(0.75, t) * 12 + calculateDiscount(t - 1);
-    return 12 * times >= 250 + calculateDiscount(times);
+    const precioTicket = 12;
+    const precioTarjeta = 250;
+
+    const acumulado = (precio) => {
+        return precio * 0.75;
+    };
+
+    let acumuladoTotal = 0;
+    let precioAcumulado = precioTicket;
+
+    for (let index = 0; index < times; index++) {
+        precioAcumulado = acumulado(precioAcumulado);
+        acumuladoTotal = acumuladoTotal + precioAcumulado;
+    }
+
+    const entradaNormal = precioTicket * times;
+    const entradaTarjeta = precioTarjeta + acumuladoTotal;
+
+    return entradaNormal > entradaTarjeta ? true : false;
 }

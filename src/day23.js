@@ -48,33 +48,31 @@
  cons canReconfigure(from, to) // false -> no tiene la misma longitud
  */
 
-/**
- * Title: Use a map as a translation table and check if there are the same existing records for different values.
- * Complexity: O(N); Ω(1)
- * Comment:
- * 1. First we check if we can save all the computational cost of the algorithm by checking the parameters length. If
- *      they have different length we return false, as the instructions require. This is important for the efficiency of
- *      our algorithm, as we can ensure more O(1) scenarios.
- * 2. We declare a map to store our values. The keys would be the returning character and the value the original
- *      character.
- * 3. We start the iteration. As we have already check that both parameters have the same length, they will share the
- *      same index in the itaration.We must first check if we already have any of the following conditions:
- *      3.1. We already have the returning character recorded and its recorded translated value is different than the
- *          one we are checking up.
- *      3.2. We already have the original character recorded and its recorded returning value is different than the one
- *              we are checking right now.
- *      If any of these conditions is TRUE, we return false. Otherwise, we store the new recording into the map and
- *      continue iterating.
- * 4. If we ever escape from the loop this will mean that we didn't found any error in our translation, so we return TRUE.
- */
+
 export default function canReconfigure(from, to) {
-    if (from.length !== to.length) return false
-    let map = new Map();
-    for (let i in from) {
-        if (map.has(to[i]) && map.get(to[i]) !== from[i] || map.has(from[i]) && map.get(from[i]) !== to[i])
+    if (from.length !== to.length) {
+        return false;
+    }
+
+    const getPos = (element, array) => {
+        let indices = [];
+        let idx = array.indexOf(element);
+        while (idx != -1) {
+            indices.push(idx);
+            idx = array.indexOf(element, idx + 1);
+        }
+        return indices;
+    };
+
+    const arrayFrom = from.split("");
+    const arrayTo = to.split("");
+
+    for (let i = 0; i < arrayFrom.length; i++) {
+        const idxFrom = getPos(arrayFrom[i], arrayFrom);
+        const idxTo = getPos(arrayTo[i], arrayTo);
+        if (idxFrom.join() != idxTo.join()) {
             return false;
-        map.set(to[i], from[i]);
-        map.set(from[i], to[i]);
+        }
     }
     return true;
 }

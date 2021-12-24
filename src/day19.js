@@ -28,28 +28,45 @@
  learn(5, [5, 5, 5]) // null -> no nos da tiempo a hacer dos cursos
  */
 
-/**
- * Title: Iterating every element and its successors.
- * Complexity: O(N log N);  Ω(1)
- * Comment:
- * - In this solution I use reduction to sum the bestResult items. This list will contain, at most, 2 items, so a
- *      classical sum will work. I do it this way because I didn't want to deal with adding undefined values.
- * 1. We iterate every element and its successors. By doing this we get a time complexity of O(N log N) instead of
- *      O(N^2), because when we find the exact solution (two items who sums the exact required time) we just stop
- *      iterating and finish the execution.
- * 2. I declare a variable named 'bestResult', whose initial result is an empty array. For every iteration I check if
- *      the new pair summed is lower than the time parameter and that its a better (not equal) solution than the
- *      previous one. If so, I update bestResult, otherwise I keep its value.
- * 3. As the initial result value is an empty list, and as if none of the courses suited the time bound I shall return
- *      null, I use a ternary operator to do it.
- *
- */
 export default function learn(time, courses) {
-    let bestResult = [];
-    for (let i = 0; i < courses.length - 1; i++)
-        for (let j = i + 1; j < courses.length; j++) {
-            bestResult = (courses[i] + courses[j] > time || bestResult.reduce((acc, r) => acc + courses[r], 0) > courses[i] + courses[j]) ? bestResult : [i, j];
-            if (bestResult.reduce((acc, r) => acc + courses[r], 0) === time) return bestResult;
+    let primeraPos;
+    let array = [];
+    let resp = [];
+    const BreakException = {};
+    let masCerca = time;
+    let pos;
+
+    for (let i = 0; i < courses.length; i++) {
+        primeraPos = courses[i];
+        courses.forEach((element, index) => {
+            if (index > i) {
+                array.push([primeraPos + element, [i, index]]);
+            }
+        });
+    }
+    try {
+
+        array.forEach((element, index) => {
+            if (element[0] === time) {
+                resp = element[1];
+                throw BreakException;
+            }
+            if (element[0] < time) {
+                if (masCerca > (time - element[0])) {
+                    masCerca = time - element[0];
+                    pos = index;
+                }
+            }
+
+        })
+    } catch (error) {}
+
+    if (resp.length > 0) {
+        return resp;
+    } else {
+        if (pos != undefined) {
+            return array[pos][1];
         }
-    return bestResult.length ? bestResult : null;
+        return null;
+    }
 }

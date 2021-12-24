@@ -82,14 +82,9 @@
 //     return count + (25 - day);
 // }
 
-/**
- * Title: Subtracting both dates and get the elapsed days via mathematical operations and ceiling.
- * Comment:
- * 1. I didn't like this solution because I thought it would be incorrect if there would be leap years, but later I
- *      realised that the date subtraction would consider that.
- * 2. There was another problem, I thought, as in the case of passing the 24 Dec 2021 23h, only an hour before Christmas,
- *      I thought the program would return 0 days, but Math.ceil help us with this.
- */
 export default function daysToXmas(date) {
-    return Math.ceil((new Date('Dec 25, 2021') - date) / (1000 * 3600 * 24));
+    const fechaLimite = new Date("Dec 25, 2021");
+    const resuldo = fechaLimite.getTime() - date.getTime();
+    const resp = Math.ceil(resuldo / (1000 * 60 * 60 * 24));
+    return resp;
 }

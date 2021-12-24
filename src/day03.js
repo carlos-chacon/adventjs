@@ -24,19 +24,9 @@ Crea una función que pasándole el texto de la carta, devuelva true si es váli
 travesura del Grinch!
  */
 
-/**
- * Title: Checking valid strings via regular expressions
- * Comment:
- * 1. To scape the parenthesis () and brackets [] we use the backwards slash \.
- * 2. The | character is a logical OR
- * 3. The first part of the logical operation, '\(\)', looks for empty parenthesis ()
- * 4. The second part of the logical operation, '[\[\]{}]', looks for brackets, '[' or ']',  and braces, '{' or '}'.
- *      The first and the last characters of the expressions are also brackets, but their not escpaed, which means that
- *      every character inside them are what we are looking for: '[' or ']' or '{' or '}'.
- * 5. The third part of the expression, '\([^\)]*$', looks for unclosed parenthesis. It only works for 1-depth
- *      parenthesis, enough for this game.
- */
 
 export default function isValid(letter) {
-    return letter.match(/\(\)|[\[\]{}]|\([^\)]*$/) == null
+    const regExp = /^[^\{\[\(\)]*\([^\{\[\(\)]+\)+.*/;
+    const resp = regExp.test(letter);
+    return resp;
 }

@@ -19,24 +19,22 @@
  Parece fácil con una complejidad de O(n)... ¿crees que podrías hacerlo mejor?
  */
 
-/**
- * Title: Iterating over an array looking for missing Id
- * Complexity: Θ(N)
- * Comment:
- * -The problem description suggests this could be resolved with a better performance than O(N). However, I could not
- *      guess how. Feel free to comment a better solution. There is people who got it solved via firstly sorting the
- *      list and then just trying to find out which element does no match with its index. However, a sorting algorithm
- *      in JS has an O(N log N) time complexity, so it would actually be a worse solution than the one that I propose.
- * 1. The passed argument is a list from 0 to N-1 but with one missing item, so we suppose that the correct content of
- *      the list should be from 0 to N-1. Because of this we create a set full of ids from 0 to N-1. This set will be our
- *      initial accumulator.
- * 2. We iterate the ids list via reduction, and for every item on the ids list we remove it from the set.
- * 3. After removing all the items, only one last id will remain on the set: the missing id. If there is no id left on
- *      the set, this means that the missing Id would be the Nth id, so we return ids.length.
- */
 export default function missingReindeer(ids) {
-    return [...ids.reduce((acc, id) => {
-        acc.delete(id);
-        return acc;
-    }, new Set([...Array(ids.length).keys()])).values()][0] ?? ids.length;
+    ids.sort((a, b) => a - b);
+    const max = Math.max(...ids);
+    let renoPerdido;
+
+    for (let index = 0; index < max + 1; index++) {
+        const buscar = ids.find(id => id === index);
+        if (buscar === undefined) {
+            renoPerdido = index;
+            break;
+        }
+    }
+
+    if (renoPerdido === undefined) {
+        renoPerdido = max + 1;
+    }
+
+    return renoPerdido;
 }

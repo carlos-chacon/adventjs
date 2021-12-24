@@ -42,34 +42,25 @@
  número y contar todo su equipo.
  */
 
-/**
- * Title: Iterative solution
- * Complexity: O(N), Ω(1)
- * Comment:
- * - The best way to store this information would be map, but we got this messy array instead.
- * - The idea of my algorithm is to iterate over all the carriers until we find our required carrier and their subordinates.
- *      If this were a tree, this would mean to find our desired element and travers its subtree. As we do not have a
- *      tree we will have to travers through undesired items, although we already found our desired first carrier,
- *      because we do not have a subtree to iterate so we have to continue iterating the main list.
- * 1. To know if I'm done searching I use a Set. I initialize this set with my required ID and after I find it I
- *      continue iterating adding its subordinates and so on. If my set is ever empty this will mean that I'm done
- *      searching, as there won't be any subordinates left. This way, I do not have to iterate every element unless the
- *      last item was a subordinate.
- * 2. As in ES6 Set deleting and adding have a BigO time complexity of O(1), this is a very efficient algorithm.
- * 3. In the second IF i just check the result of deletion. I do it this way to save a line of code, as both 'delete'
- *      and 'has' methods are O(1) and returns true if they found the item or false otherwise. As the returning result
- *      is the same thing, I use deletion instead of using firs 'has' and then, later in the if's body,  'delete'.
- */
 
 export default function countPackages(carriers, carrierID) {
-    let wanted = new Set().add(carrierID);
-    let result = 0;
-    for (const carrier of carriers) {
-        if (!wanted.size) return result;
-        if (wanted.delete(carrier[0])) {
-            carrier[2].forEach((subordinate) => wanted.add(subordinate));
-            result += carrier[1];
+    const findCarrier = (carriers, carrierID) => carriers.find((carrier) => {
+        return carrier[0] === carrierID
+    });
+
+    let resp = 0;
+    let _carriers = carriers;
+    let _carrierID = carrierID;
+
+    const getCarrier = (carriers, carrierID, resp) => {
+        const _carrier = findCarrier(carriers, carrierID);
+        resp = resp + _carrier[1];
+        if (_carrier[2].length > 0) {
+            _carrier[2].forEach(element => {
+                resp = getCarrier(carriers, element, resp);
+            });
         }
-    }
-    return result;
+        return resp;
+    };
+    return getCarrier(_carriers, _carrierID, resp);
 }

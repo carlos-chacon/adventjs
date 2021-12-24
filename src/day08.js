@@ -27,22 +27,11 @@
  maxProfit(pricesAda) = // -> -1 (no hay ganancia posible)
  */
 
-/**
- * Title: Standard solution.
- * Complexity: O(N log N)
- * Comment:
- * 1. The adopted idea is the iteration of the array and on every iteration we do another search throw the right part of
- * the array looking for the minimum highest value for selling.
- * 2. If we find a higher value for selling than the value we are studying for buying, we compare it's difference to the
- * best previous value. If it is higher, which means we got a better profit, we keep it and resume the search.
- */
 export default function maxProfit(prices) {
-    let record = -1;
-    for (let buy = 0; buy < prices.length - 1; buy++) {
-        for (let sell = buy + 1; sell < prices.length; sell++) {
-            let tmpProfit = prices[sell] - prices[buy];
-            if (tmpProfit > record && tmpProfit > 0) record = tmpProfit;
-        }
-    }
-    return record
+    let divideArray = prices.splice(0, prices.length / 2);
+
+    const compra = Math.min(...divideArray);
+    const venta = Math.max(...prices);
+    const ganancia = venta - compra;
+    return ganancia <= 0 ? -1 : ganancia;
 }

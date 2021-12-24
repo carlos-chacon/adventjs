@@ -40,27 +40,18 @@
  hacer que supere la carga máxima.
  */
 
-/**
- * Title: Using a map to store the destinies and their expected items
- * Complexity: O(N); Ω(1)
- * Comment:
- * 1. We set a counter starting to 0 to count the load.
- * 2. We declare a map to store the destinies and their expected items
- * 3. We iterate the stops of the trip. First we check if there is any package for this stop, so we can lose weight.
- *      Then we got the items that must travel from this stop to a new destiny stop. In this moment we check if the
- *      carrying objects are OK for Santa's sleigh. If not, we return false, otherwise we add the new destiny into our
- *      map of destinies.
- * 4. If we get out from the loop this means we could complete the whole trip without luggage issues.
- */
 export default function canCarry(capacity, trip) {
-    let carrying = 0;
-    let destinies = new Map();
-    for (let stop of trip) {
-        let [items, from, to] = stop;
-        if (destinies.has(from)) carrying -= destinies.get(from);
-        carrying += items;
-        if (carrying > capacity) return false;
-        destinies.set(to, items);
+    let recoge = 0;
+
+    for (let index = 0; index < trip.length; index++) {
+        const element = trip[index];
+        recoge += element[0];
+        if (index > 0 && element[1] >= trip[index - 1][2]) {
+            recoge = recoge - trip[index - 1][0];
+        }
     }
-    return true;
+    if (recoge <= capacity) {
+        return true;
+    }
+    return false;
 }

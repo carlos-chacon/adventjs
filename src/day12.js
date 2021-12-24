@@ -48,20 +48,32 @@
  mínimo que nos serviría para sortear todos los obstáculos.
  */
 
-/**
- * Title: Functional + multiple condition
- * Complexity: O(N*T) -> T is the highest value of the list
- * Comment:
- * 1. First we get the highest value of the list. It's an O(N) operation but we will only do this once.
- * 2. The idea is to try every possible jump: from 1 to T, being T the highest value of the list. T is important because
- *      we need to set a stopping point on the loop, and if we could not find any possible jump on the last iteration, a
- *      jump which could pass all the obstacles at once would be the answer.
- * 3. To know if the current jump value would work we just have to ensure that there is no obstacle multiple of the
- *      current value. Another option would be to create an inner loop for every jump to iterate the array and ensure
- *      that with that value we won't hit any array's value. However, the proposed option is smarter, more simple and
- *      shorter.
- */
 export default function getMinJump(obstacles) {
-    const maxValue = Math.max(...obstacles);
-    for (let j = 1; j < maxValue; j++) if (obstacles.every(o => o % j !== 0)) return j;
+    obstacles.sort((a, b) => a - b);
+
+    let longitudMinima = 0;
+
+    for (let index = 1; index < 11; index++) {
+        let salir = 0;
+        let sumaLongitud = 0;
+
+        while (salir < 10) {
+            sumaLongitud += index;
+            const element = obstacles.find((obstacle) => obstacle === sumaLongitud);
+
+            if (element) {
+                break;
+            }
+            if (sumaLongitud > 10) {
+                longitudMinima = index;
+                break;
+            }
+            salir++;
+
+        }
+        if (longitudMinima > 0) {
+            break;
+        }
+    }
+    return longitudMinima;
 }

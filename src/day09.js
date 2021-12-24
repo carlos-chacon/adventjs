@@ -32,32 +32,24 @@
  La dificultad del reto está más en comprender la función que en la implementación. ¡Suerte!.
  */
 
-/**
- * Title: Functional solution via reduction.
- * Complexity: Θ(N)
- * Comment:
- * 1. The solution is simple: applying the grouping condition to every value on the collection and storing its results
- * on an object. For that we use reduction.
- * 2. However, the implementation of the reduction function depends on if the grouping condition is a callable function
- * or a property from the items in the collection. Because of this we require two blocks of code, quite similar among them.
- * 3. There would be an alternative to only have one block of code: checking the grouping condition inside the reduction
- * function. However, I dont quite like this idea, because you would be checking it on every iteration, N times. Some
- * people defend this is not a terrible idea, as the checking cost would not be very significant, and the complexity of
- * the algorithm resides the grouping condition itself. There is no bad or good idea, you may chose whatever you prefer.
- */
-export default function groupBy(collection, it) {
-    if (typeof (it) === 'function')
-        return collection.reduce((result, item) => {
-            const key = it(item);
-            if (result[key]) result[key].push(item);
-            else result[key] = [item];
-            return result;
-        }, {});
 
-    return collection.reduce((result, item) => {
-        const key = item[it];
-        if (result[key]) result[key].push(item);
-        else result[key] = [item];
-        return result;
-    }, {});
+export default function groupBy(collection, it) {
+    let resp = {};
+    if (it instanceof Function) {
+        collection.forEach(element => {
+            const i = it(element);
+            resp[i] = [...(resp[i] || []), element];
+        });
+    } else if (collection.hasOwnProperty(it)) {
+        collection.forEach(element => {
+            const i = element[it];
+            resp[i] = [...(resp[i] || []), element];
+        });
+    } else {
+        collection.forEach(element => {
+            const i = element[it];
+            resp[i] = [...(resp[i] || []), element];
+        });
+    }
+    return resp;
 }

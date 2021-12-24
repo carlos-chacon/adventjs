@@ -26,17 +26,8 @@
  tener ambas.
  */
 
-/**
- * Title: Filtering sheeps using functional programming (filter) and regular expressions.
- * Complexity: Θ(N)
- * Comment: We iterate along the whole list and we just keep the sheeps with the given conditions.
- * For letters validation we use a regular expression '[nN][aA]|[aA][nN]':
- *  ¤ The '|' character specifies that we are looking for strings that match the left part ([nN][aA]) or the right part
- *    ([aA][nN])
- *  ¤ [nN] means that we are looking for an 'n' or an 'N'. It's the same with [aA].
- *    Putting both following each other means that we are looking an 'n' or an 'N' followed by an 'a' or an 'A'.
- *  ¤ The right part means the same but in the oposite order.
- */
 export default function contarOvejas(ovejas) {
-    return ovejas.filter(oveja => oveja.color === 'rojo' && oveja.name.match(/[nN][^aA]*[aA]|[aA][^nN]*[nN]/))
+    const ovejasRojas = ovejas.filter((oveja) => oveja.color === "rojo");
+    const ovejasNA = ovejasRojas.filter((oveja) => oveja.name.toLowerCase().includes("a") && oveja.name.toLowerCase().includes("n"));
+    return ovejasNA;
 }

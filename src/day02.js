@@ -27,24 +27,16 @@
  Ten en cuenta que los tests pueden ser más exhaustivos... 😝 ¡Cuidado con contar espacios vacíos!
  */
 
-/**
- * Title: Filtering and grouping items via functional programming (filter + reduce).
- * Complexity: Θ(N)
- * Comment:
- * 1. We use trim function to remove undesired blank spaces, as the problem description tells us that this may happen.
- * 2. We split the text into a list of words using the inner spaces as separators (we removed the outter spaces in step
- *      1. For this we use the regex '/s' that means any whitespace, next line, etc.
- * 3. We filter from the list those words starting with underscore _, as the problem descriptions requires.
- * 4. We use reduce function to count the occurrences of the listed items:
- *      4.1. We set as the accumulator an empty object. This will be the object that at the end we will return.
- *      4.2. We will iterate the list of words, and for every word we will check if there is an existing key in the
- *      accumulator with that same word. If it does, we just increment it's value 1 unit. If not, we do create an entry
- *      in the accumulator with the word as key and value 1 as it's the first occurrence.
- */
 
 export default function listGifts(letter) {
-    return letter.trim().split(/\s+/).filter(w => !w.startsWith('_')).reduce((acc, word) => {
-        acc[word] = (acc[word] || 0) + 1;
-        return acc;
-    }, {});
+    const cartaArray = letter.trim().split(' ');
+
+    const resp = {};
+
+    cartaArray.forEach(carta => {
+        if (carta.charAt(0) != '_') {
+            resp[carta] = resp[carta] ? resp[carta] + 1 : 1;
+        }
+    });
+    return resp;
 }

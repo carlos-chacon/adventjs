@@ -77,14 +77,18 @@
  programadores. ¿Lo sabías?
  */
 
-/**
- * Title: Sum all tree nodes via recursion and ternary operators
- * Complexity: Θ(N)
- * Comment:
- * 1. We use recursion to iterate the tree, using every subtree (left and right children) as the bigTree parameter on
- *      every recursive call.
- * 2. If we don't have a bigTree on a call, or what its the same, the bigTree is null, we just return 0.
- */
 export default function countDecorations(bigTree) {
-    return bigTree ? bigTree.value + countDecorations(bigTree.left) + countDecorations(bigTree.right) : 0;
+    const decoraciones = (bigTree, cont) => {
+        for (const key in bigTree) {
+            // console.log(cont);
+            if (key === "value") {
+                cont = cont + bigTree[key];
+            }
+            if (typeof bigTree[key] === "object") {
+                cont = decoraciones(bigTree[key], cont);
+            }
+        }
+        return cont;
+    }
+    return decoraciones(bigTree, 0);
 }

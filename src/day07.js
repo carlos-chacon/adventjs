@@ -43,25 +43,17 @@
  tener diferentes organizaciones.Lo importante es buscar que el producto está en los almacenes.
  */
 
-/**
- * Title: Recursive solution
- * Comment:
- * 1. There are two base case:
- *      1.1. Case A: the store param is actually the requested product, we return true;
- *      1.2. Case B: The store param is falsy, not an object (could be another item in the store but not the requested
- *      one), it is an empty object or it is an Array (in JS arrays are objects too so the second condition would be
- *      TRUE). In any of those situations we return FALSE.
- *
- * 2. Otherwise, we have an non-empty object. We extract its values into an array and iterate through it applying
- * recursion to every item in order to find the requested product. If in any of these iterations we find it, we return
- * TRUE. Otherwise, we return FALSE.
- */
 export default function contains(store, product) {
-    if (store === product) return true;
-    if (!(store && typeof store == 'object' && Object.values(store).length) || Array.isArray(store)) return false;
+    const respuesta = (store) => {
+        return Object.entries(store).find(([key, value]) => {
+            if (typeof value === "object") {
+                return respuesta(value);
+            } else {
+                return value === product;
+            }
+        });
 
-    const values = Object.values(store);
-    for (let i = 0; i < values.length; i++)
-        if (contains(values[i], product)) return true;
-    return false;
+    };
+
+    return respuesta(store) ? true : false;
 }
