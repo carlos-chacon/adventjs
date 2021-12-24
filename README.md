@@ -1,14 +1,8 @@
-# 🎄My adventjs commented solutions🎄
+# 🎄¡Cada día un nuevo reto!🎄
 
-adventjs.dev is a platform developed by  where you can practice your JavaScript skills via challenges as an advent calendar. This repository contains my proposed solutions for all the challenges.
+Arranca el 1 de diciembre y hasta el 25 de diciembre, todos los días, un reto nuevo para que lo soluciones con JavaScript.
 
-As I consider that if you are reading this you may be in the search of some help for succeeding on a challenge, all my solutions are described so you can understand what I implemented. There are some challenges with more than one solution (for example, an iterative and a functional one).
-
-The solutions descriptions contain a title for identifying it, the calculated time complexity, an explanation step by step and, some author comments about it.
-
-If you think you got into a better solution than the one I propose, please let me know, so I can include your solution (all the credits will be yours, of course).
-
-## Index of challenges
+## Soluciones
 
 
 | Day |                                                         Code + Description                                                         |                                   Test                                   |
